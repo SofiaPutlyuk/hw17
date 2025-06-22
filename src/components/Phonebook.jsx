@@ -1,8 +1,7 @@
 import { nanoid } from 'nanoid'
 import { PhoneList } from './PhoneList'
 import './phonebook.css'
-import { FaRegAddressBook } from "react-icons/fa";
-import { useState, useEffect, Fragment } from 'react'
+import { useState, useEffect } from 'react'
 export const Phonebook = () => {
     const [name, setName] = useState(() => {
         return localStorage.getItem("namePhone") || "";
@@ -14,16 +13,16 @@ export const Phonebook = () => {
         return localStorage.getItem("filter") || ""
     })
     const [contacts, setContacts] = useState(() => {
-         const savedContacts = localStorage.getItem("contactPhone");
-    if (savedContacts) {
-        return JSON.parse(savedContacts);
-    }
-    return [
-        { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-        { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-        { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-        { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' }
-    ];
+        const savedContacts = localStorage.getItem("contactPhone");
+        if (savedContacts) {
+            return JSON.parse(savedContacts);
+        }
+        return [
+            { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+            { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+            { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+            { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' }
+        ];
     })
     useEffect(() => {
         localStorage.setItem("namePhone", name)
@@ -60,9 +59,10 @@ export const Phonebook = () => {
     }
     const filteredName = contacts.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase()))
     return (
-        <Fragment>
+        <div className="phonebook">
+            <h1>Phonebook</h1>
             <form onSubmit={(e) => { e.preventDefault() }}>
-                <h1>Name</h1>
+                    <input type="text" placeholder="Filter contacts:" onChange={searchByName} value={filter} className='inputForm' />
                 <input
                     type="text"
                     name="name"
@@ -74,7 +74,6 @@ export const Phonebook = () => {
                     value={name}
                     className='inputForm'
                 />
-                <h1>Number</h1>
                 <input
                     type="tel"
                     name="number"
@@ -86,13 +85,9 @@ export const Phonebook = () => {
                     value={number}
                     className='inputForm'
                 />
-                <button onClick={(e) => { e.preventDefault(); handleAddContact() }} className="btnAddContact">Add contact <FaRegAddressBook /> </button>
+                <button onClick={(e) => { e.preventDefault(); handleAddContact() }} className="btnAddContact">Add contact  </button>
             </form>
-            <div className='containerFilter'>
-                <h1>Filter</h1>
-                <input type="text" placeholder="filter" onChange={searchByName} value={filter} className='inputForm' />
-            </div>
             <PhoneList listPhone={filteredName} deleteBtn={deleteContact} />
-        </Fragment>
+        </div>
     )
 }

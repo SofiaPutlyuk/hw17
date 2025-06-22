@@ -1,8 +1,7 @@
 import { Phonebook } from "./components/Phonebook";
-
 function App() {
   return (
-    <div className="App">
+    <div >
      <Phonebook />
     </div>
   );
